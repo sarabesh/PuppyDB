@@ -10,7 +10,7 @@ import numpy as np
 VECTOR_SIZE = 512
 VECTOR_BYTES = VECTOR_SIZE * 4  # Assuming float32 (4 bytes) for each vector component
 
-class vectorStore:
+class VectorStore:
     def __init__(self, file_path):
         self.file_path = file_path
         self.file = open(file_path, 'ab+')
@@ -96,5 +96,7 @@ class vectorStore:
     # Close the memory-mapped object and file
     def close(self):
         # Close the memory-mapped object and file
-        self.mmap_obj.close()
+        if self.mmap_obj is not None:
+            self.mmap_obj.close()
+            self.mmap_obj = None
         self.file.close()

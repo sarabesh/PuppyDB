@@ -1,6 +1,6 @@
 # test_vector_store.py
 import numpy as np
-from ..vector_store import vectorStore  # Change to VectorStore if you rename class!
+from ..vector_store import VectorStore  # Change to VectorStore if you rename class!
 
 VECTOR_SIZE = 512
 VECTOR_FILE_PATH = "test_vectors.bin"
@@ -10,7 +10,7 @@ def random_vector():
     return np.random.randn(VECTOR_SIZE).astype('float32')
 
 # Init VectorStore
-vs = vectorStore(VECTOR_FILE_PATH)
+vs = VectorStore(VECTOR_FILE_PATH)
 
 # Test 1: Insert first vector
 vec1 = random_vector()
