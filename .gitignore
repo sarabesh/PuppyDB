@@ -1,0 +1,9 @@
+__# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# VectorStore artifacts
+*.bin 
