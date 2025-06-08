@@ -1,4 +1,5 @@
 # test_metadata_store.py
+import os
 from ..metadata_store import MetadataStore
 
 METADATA_STORE_PATH = "test_metadata_store"
@@ -56,3 +57,8 @@ print("Metadata truncation OK ✅")
 # Cleanup
 ms.close()
 print("All MetadataStore tests passed! 🎉")
+
+if os.path.exists(METADATA_STORE_PATH):
+    for filename in os.listdir(METADATA_STORE_PATH):
+        os.remove(os.path.join(METADATA_STORE_PATH, filename))
+    os.rmdir(METADATA_STORE_PATH)

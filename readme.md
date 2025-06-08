@@ -3,7 +3,7 @@
 **PuppyDB** is a playful vector database built from scratch with:
 
 - **Flat files + mmap** for fast vector storage
-- **LMDB** for metadata and offsets (currently using LMDB — RocksDB planned)
+- **LMDB** for metadata and offsets
 - **HNSW** (Hierarchical Navigable Small World graphs) for approximate nearest neighbor search (coming soon!)
 - A simple WAL for durability (planned)
 

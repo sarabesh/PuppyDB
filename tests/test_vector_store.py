@@ -1,4 +1,5 @@
 # test_vector_store.py
+import os
 import numpy as np
 from ..vector_store import VectorStore  # Change to VectorStore if you rename class!
 
@@ -47,3 +48,7 @@ print("vec3 retrieval after truncate OK ✅")
 # Cleanup
 vs.close()
 print("All VectorStore tests passed! 🎉")
+
+# Optionally: cleanup test files
+if os.path.exists(VECTOR_FILE_PATH):
+    os.remove(VECTOR_FILE_PATH)
