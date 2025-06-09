@@ -26,6 +26,12 @@ class MetadataStore:
             records = json.loads(metadata_json.decode('utf-8'))
             return records
     
+    def get_all_vector_ids(self):
+        with self.env.begin(db=self.db) as txn:
+            cursor = txn.cursor()
+            vector_ids = [key.decode('utf-8') for key, _ in cursor]
+            return vector_ids
+
     def delete_metadata(self, vector_id):
         with self.env.begin(write=True, db=self.db) as txn:
             txn.delete(vector_id.encode('utf-8'))

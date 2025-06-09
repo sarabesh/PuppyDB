@@ -4,12 +4,19 @@
 
 from .vector_store import VectorStore
 from .metadata_store import MetadataStore
+from .search import KnnSearch, HNSWSearch
+
+
 
 class PuppyDB:
     # inits vector store and metadata store
     def __init__(self, vector_file_path, metadata_db_path):
         self.vector_store = VectorStore(vector_file_path)
         self.metadata_store = MetadataStore(metadata_db_path)
+        self.search_engines = {
+            "knn": KnnSearch(self),
+            "hnsw": HNSWSearch(self)
+        }
 
     # Inserts a vector into vector store and ofset + its metadata into the metadata store
     def insert_vector(self, vector_id, vector, metadata):
@@ -24,6 +31,22 @@ class PuppyDB:
             return None
         offset = record['offset']
         return self.vector_store.read_vector(offset), record['metadata']
+    
+    #Retrieves all vector_ids from metadata store to be used for search
+    def get_all_vectors(self):
+        ids = self.metadata_store.get_all_vector_ids()
+        vectors = []
+        for vector_id in ids:
+            vector = self.get_vector(vector_id)[0]
+            if vector is not None:  # Ensure vector exists
+                vectors.append((vector_id, vector))
+        return vectors
+
+    # Search for similar vectors using the specified method
+    def search(self, query_vector, k=5, method="knn"):
+        if method not in self.search_engines:
+            raise ValueError(f"Unknown search method: {method}")
+        return self.search_engines[method].search(query_vector, k)
 
     # Deletes a vector metadata by vector_id
     def delete_vector(self, vector_id):

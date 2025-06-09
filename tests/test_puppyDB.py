@@ -16,7 +16,7 @@ def random_vector():
 db = PuppyDB(VECTOR_FILE_PATH, METADATA_STORE_PATH)
 print("PuppyDB initialized.")
 
-# Test 1: Insert vector
+# Insert vector
 vector_id = "vec_001"
 vector = random_vector()
 metadata = {"user": "alice", "tag": "puppydb_test"}
@@ -24,7 +24,7 @@ metadata = {"user": "alice", "tag": "puppydb_test"}
 offset = db.insert_vector(vector_id, vector, metadata)
 print(f"Inserted vector {vector_id} at offset {offset}")
 
-# Test 2: Retrieve vector
+# Retrieve vector
 retrieved = db.get_vector(vector_id)
 assert retrieved is not None, "Failed to retrieve vector!"
 retrieved_vector, retrieved_metadata = retrieved
@@ -32,19 +32,23 @@ assert np.allclose(vector, retrieved_vector), "Vector data mismatch!"
 assert retrieved_metadata == metadata, "Metadata mismatch!"
 print("Vector retrieval OK ✅")
 
-# Test 3: Delete vector
+# Delete vector
 db.delete_vector(vector_id)
 retrieved_after_delete = db.get_vector(vector_id)
 assert retrieved_after_delete is None, "Vector not deleted!"
 print("Vector deletion OK ✅")
 
-# Test 4: Truncate DB
 # Insert multiple vectors
 for i in range(3):
     vector_id = f"vec_{i}"
     vec = random_vector()
     meta = {"index": i}
     db.insert_vector(vector_id, vec, meta)
+
+# get all vector id, vector pairs
+all_vectors = db.get_all_vectors()
+assert len(all_vectors) == 3, "Expected 3 vectors!"
+print(f"Found {len(all_vectors)} vectors in PuppyDB.")
 
 # Truncate PuppyDB
 db.truncate()

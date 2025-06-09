@@ -13,7 +13,7 @@ def random_vector():
 # Init VectorStore
 vs = VectorStore(VECTOR_FILE_PATH)
 
-# Test 1: Insert first vector
+# Insert first vector
 vec1 = random_vector()
 offset1 = vs.append_vector(vec1)
 print(f"Inserted vec1 at offset {offset1}")
@@ -23,7 +23,7 @@ retrieved_vec1 = vs.read_vector(offset1)
 assert np.allclose(vec1, retrieved_vec1), "vec1 mismatch!"
 print("vec1 retrieval OK ✅")
 
-# Test 2: Insert second vector
+# Insert second vector
 vec2 = random_vector()
 offset2 = vs.append_vector(vec2)
 print(f"Inserted vec2 at offset {offset2}")
@@ -33,11 +33,11 @@ retrieved_vec2 = vs.read_vector(offset2)
 assert np.allclose(vec2, retrieved_vec2), "vec2 mismatch!"
 print("vec2 retrieval OK ✅")
 
-# Test 3: Truncate
+# Truncate
 vs.truncate()
 print("File truncated.")
 
-# Test 4: Insert new vector after truncate
+# Insert new vector after truncate
 vec3 = random_vector()
 offset3 = vs.append_vector(vec3)
 assert offset3 == 0, "Expected offset 0 after truncate"
