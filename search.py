@@ -22,12 +22,12 @@ class KnnSearch(Search):
         print(f"query_vector: {query_vector.shape}")
         
         for vector_id, vector in vectors:
-            
+            #cosine similarity
             similarity = np.dot(vector, query_vector) / (np.linalg.norm(vector) * np.linalg.norm(query_vector))
             similarities.append((vector_id, similarity))
         
-        # Sort by distance and get the top k
-        similarities.sort(key=lambda x: x[1])  
+        # Sort by similarity and get the top k
+        similarities.sort(key=lambda x: x[1], reverse=True)  # Sort by similarity (descending)
 
         # find metadata for the top k vectors
         results = []

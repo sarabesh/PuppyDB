@@ -47,7 +47,7 @@ for i, text in enumerate(texts):
     print(f"Inserted {vector_id}: '{text}'")
 
 # Choose query text (you can vary this!)
-query_text = "A rainbow over a mountain landscape"
+query_text = "The fluffy white Samoyed"
 
 # Get query embedding
 query_embedding = get_clip_text_embedding(query_text)
