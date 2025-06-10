@@ -7,7 +7,6 @@ from .metadata_store import MetadataStore
 from .search import KnnSearch, HNSWSearch
 
 
-
 class PuppyDB:
     # inits vector store and metadata store
     def __init__(self, vector_file_path, metadata_db_path):
@@ -47,6 +46,12 @@ class PuppyDB:
         if method not in self.search_engines:
             raise ValueError(f"Unknown search method: {method}")
         return self.search_engines[method].search(query_vector, k)
+    
+    def build_index(self, method="hnsw"):
+        if method not in self.search_engines:
+            raise ValueError(f"Unknown indexing method: {method}")
+        # only HnswSearch will do anything here
+        self.search_engines[method].index()
 
     # Deletes a vector metadata by vector_id
     def delete_vector(self, vector_id):
