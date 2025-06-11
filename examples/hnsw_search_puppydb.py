@@ -55,16 +55,16 @@ query_embedding = get_clip_text_embedding(query_text)
 # Build index (just gets vector in memory for KNN search)
 db.build_index(method="hnsw")
 
-# # Run search
-# results = db.search(query_embedding, k=5, method="hnsw")
+# Run search
+results = db.search(query_embedding, k=5, method="hnsw")
 
-# # Display results
-# print(f"\nKNN Search Results for query: '{query_text}'\n")
+# Display results
+print(f"\nKNN Search Results for query: '{query_text}'\n")
 
-# for i, r in enumerate(results):
-#     print(f"{i+1}. Vector ID: {r[0]}")
-#     print(f"   Similarity: {r[1]:.4f}")
-#     print(f"   Metadata: {r[2]['text']}\n")
+for i, r in enumerate(results):
+    print(f"{i+1}. Vector ID: {r[0]}")
+    print(f"   Similarity: {r[1]:.4f}")
+    print(f"   Metadata: {r[2]['text']}\n")
 
 # Close PuppyDB
 db.close()

@@ -226,9 +226,39 @@ class HNSWSearch(Search):
 
     def search(self, query_vector, k=5):
         # HNSW
-        # Extract vector data and compute distances
-        similarities = []
-        print(f"query_vector: {query_vector.shape}")
-        #self.layers from index() would be used to search
-        pass
-        # For simplicity, we will not implement the actual HNSW algorithm here
+
+        if self.entry_point is None:
+            print("Empty graph!")
+            return []
+    
+        current_node = self.entry_point
+        for i in range(self.max_layer, 0, -1):
+            # Greedy search (ef=1) in layer i
+            nearest_neighbors = self._search_layer_neighbors(self.layers[i], current_node, query_vector, ef=1)
+            current_node = self.layers[i - 1][nearest_neighbors[0][1].vector_id]  # Move to next lower layer
+
+        # Full EF search in layer 0
+        ef_search = max(k * 2, 10)  # Larger ef for better recall
+        nearest_neighbors = self._search_layer_neighbors(self.layers[0], current_node, query_vector, ef=ef_search)
+
+        # Return top-k results as (vector_id, distance)
+        top_k = nearest_neighbors[:k]
+        
+         # find metadata for the top k vectors
+        results = []
+        for i in range(min(k, len(top_k))):
+            # pop the smallest similarity (which is actually the largest due to negation)
+            similarity, node = top_k[i]
+            vector_id = node.vector_id
+            # similarity = -similarity
+            # retrieve the vector and metadata
+            _, metadata = self.puppydb.get_vector(vector_id)
+            results.append((vector_id, similarity , metadata))
+        
+        return results
+
+    
+    
+       
+
+       
