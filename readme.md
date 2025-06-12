@@ -1,5 +1,7 @@
 # PuppyDB 🐶
-
+<p align="center">
+<img src="assets/logo.png" alt="PuppyDB Logo" width="200"/>
+</p>
 **PuppyDB** is a playful vector database built from scratch with:
 
 - **Flat files + mmap** for fast vector storage
