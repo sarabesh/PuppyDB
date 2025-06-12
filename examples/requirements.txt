@@ -1,0 +1,7 @@
+# Core dependencies
+numpy
+pandas
+torch
+
+# Correct CLIP from OpenAI GitHub (official, not PyPI!)
+git+https://github.com/openai/CLIP.git

@@ -4,14 +4,14 @@
 
 - **Flat files + mmap** for fast vector storage
 - **LMDB** for metadata and offsets
-- **HNSW** (Hierarchical Navigable Small World graphs) for approximate nearest neighbor search (coming soon!)
-- A simple WAL for durability (planned)
+- **HNSW** (Hierarchical Navigable Small World graphs) for approximate nearest neighbor search
+- Simple and hackable architecture
 
 Fetch your vectors fast — just like a good puppy! 🐾
 
 ---
 
-### Project Status
+## Project Status
 
 🚧 **In Progress**  
 This is an experimental learning project to explore how vector databases work under the hood.  
@@ -19,26 +19,29 @@ Major components are being built step by step.
 
 ---
 
-### Planned Features
+## Features
 
-- ✅ Basic vector db operations (Persistent vector and metadata storage)
-- 🛠️ Perform top-k nearest neighbor search (**coming soon with HNSW
-- Lightweight and fun to use
+- ✅ Persistent vector + metadata storage
+- ✅ Brute-force KNN search
+- ✅ Approximate nearest neighbor search (HNSW-based)
+- 🛠️ Lightweight and fun to use
+- 🛠️ Comprehensive test suite (pytest)
 
 ---
 
-### Project Goals
+## Project Goals
 
-- Learn the internals of building a vector DB
-- Explore custom HNSW implementation
+- Learn the internals of building a vector database
+- Implement a custom HNSW search
 - Keep the architecture simple and hackable
+- Provide clean examples and tests
 
 ---
 
-### Usage
+## Usage
 
 ```python
-from puppydb import PuppyDB
+from puppydb.core import PuppyDB
 import numpy as np
 
 # Initialize PuppyDB
@@ -65,5 +68,20 @@ db.truncate()
 
 # Close DB
 db.close()
-
 ```
+
+---
+
+## Project Structure
+
+puppydb/            # Core package code
+tests/              # Pytest-based unit tests
+examples/           # Example scripts
+setup.py            # Package configuration
+requirements.txt    # Project dependencies
+README.md           # Project readme
+
+---
+
+## License
+MIT License — use and modify freely.

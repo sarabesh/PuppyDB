@@ -37,4 +37,3 @@ This folder contains example scripts demonstrating how to use PuppyDB.
 - Metadata is stored in `test_metadata_store/`.
 
 ---
-

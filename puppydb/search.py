@@ -1,7 +1,6 @@
 import numpy as np
 import heapq
 from bisect import insort
-from collections import Counter
 from .utils import cosine_distance
 
 class Search:

@@ -5,6 +5,10 @@ __pycache__/
 *.pyd
 *.egg-info/
 
+#Build
+build/
+dist/
+
 # Pytest cache
 .pytest_cache/
 
