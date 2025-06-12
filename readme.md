@@ -38,6 +38,15 @@ Major components are being built step by step.
 
 ---
 
+## Installation
+
+You can install PuppyDB from PyPI:
+
+```bash
+pip install pup-py-db==0.1.0
+```
+---
+
 ## Usage
 
 ```python

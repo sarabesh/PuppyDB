@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="puppydb",
+    name="pup-py-db",
     version="0.1.0",
     author="Sarabesh",
     description="An experimental vector database built from scratch with flat files, LMDB, and HNSW.",
