@@ -1,7 +1,9 @@
-# test_vector_store.py
+# tests/test_vector_store.py
+
 import os
 import numpy as np
-from ..vector_store import VectorStore  # Change to VectorStore if you rename class!
+import pytest
+from puppydb.vector_store import VectorStore
 
 VECTOR_SIZE = 512
 VECTOR_FILE_PATH = "test_vectors.bin"
@@ -10,45 +12,43 @@ VECTOR_FILE_PATH = "test_vectors.bin"
 def random_vector():
     return np.random.randn(VECTOR_SIZE).astype('float32')
 
-# Init VectorStore
-vs = VectorStore(VECTOR_FILE_PATH)
+@pytest.fixture
+def vs():
+    # Setup: create VectorStore instance
+    vs = VectorStore(VECTOR_FILE_PATH)
+    yield vs
+    # Teardown: cleanup
+    vs.close()
+    if os.path.exists(VECTOR_FILE_PATH):
+        os.remove(VECTOR_FILE_PATH)
 
-# Insert first vector
-vec1 = random_vector()
-offset1 = vs.append_vector(vec1)
-print(f"Inserted vec1 at offset {offset1}")
+def test_append_and_read_vectors(vs):
+    # Insert first vector
+    vec1 = random_vector()
+    offset1 = vs.append_vector(vec1)
 
-# Read vec1 back
-retrieved_vec1 = vs.read_vector(offset1)
-assert np.allclose(vec1, retrieved_vec1), "vec1 mismatch!"
-print("vec1 retrieval OK ✅")
+    # Read vec1 back
+    retrieved_vec1 = vs.read_vector(offset1)
+    assert np.allclose(vec1, retrieved_vec1), "vec1 mismatch!"
 
-# Insert second vector
-vec2 = random_vector()
-offset2 = vs.append_vector(vec2)
-print(f"Inserted vec2 at offset {offset2}")
+    # Insert second vector
+    vec2 = random_vector()
+    offset2 = vs.append_vector(vec2)
 
-# Read vec2 back
-retrieved_vec2 = vs.read_vector(offset2)
-assert np.allclose(vec2, retrieved_vec2), "vec2 mismatch!"
-print("vec2 retrieval OK ✅")
+    # Read vec2 back
+    retrieved_vec2 = vs.read_vector(offset2)
+    assert np.allclose(vec2, retrieved_vec2), "vec2 mismatch!"
 
-# Truncate
-vs.truncate()
-print("File truncated.")
+def test_truncate_and_append(vs):
+    # Insert and truncate
+    vec1 = random_vector()
+    vs.append_vector(vec1)
+    vs.truncate()
 
-# Insert new vector after truncate
-vec3 = random_vector()
-offset3 = vs.append_vector(vec3)
-assert offset3 == 0, "Expected offset 0 after truncate"
-retrieved_vec3 = vs.read_vector(offset3)
-assert np.allclose(vec3, retrieved_vec3), "vec3 mismatch after truncate!"
-print("vec3 retrieval after truncate OK ✅")
+    # Insert new vector after truncate
+    vec3 = random_vector()
+    offset3 = vs.append_vector(vec3)
+    assert offset3 == 0, "Expected offset 0 after truncate"
 
-# Cleanup
-vs.close()
-print("All VectorStore tests passed! 🎉")
-
-# Optionally: cleanup test files
-if os.path.exists(VECTOR_FILE_PATH):
-    os.remove(VECTOR_FILE_PATH)
+    retrieved_vec3 = vs.read_vector(offset3)
+    assert np.allclose(vec3, retrieved_vec3), "vec3 mismatch after truncate!"

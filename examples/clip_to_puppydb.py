@@ -6,11 +6,9 @@ Using OpenAI CLIP (clip package)
 import clip
 import torch
 import numpy as np
-import os
-import sys
 
 # Import PuppyDB
-from ..puppyDB import PuppyDB
+from puppydb.core import PuppyDB
 
 # Load CLIP model + tokenizer
 device = "cuda" if torch.cuda.is_available() else "cpu"

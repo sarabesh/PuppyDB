@@ -6,7 +6,6 @@ from .vector_store import VectorStore
 from .metadata_store import MetadataStore
 from .search import KnnSearch, HNSWSearch
 
-
 class PuppyDB:
     # inits vector store and metadata store
     def __init__(self, vector_file_path, metadata_db_path):

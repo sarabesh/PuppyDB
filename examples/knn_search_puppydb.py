@@ -10,7 +10,7 @@ import os
 import time
 
 # Import PuppyDB
-from ..puppyDB import PuppyDB
+from puppydb.core import PuppyDB
 
 # Load CLIP model
 device = "cuda" if torch.cuda.is_available() else "cpu"

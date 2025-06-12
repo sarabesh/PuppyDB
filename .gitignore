@@ -1,9 +1,16 @@
-__# Python
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.egg-info/
 
+# Pytest cache
+.pytest_cache/
+
 # VectorStore artifacts
 *.bin 
+
+# PuppyDB example outputs
+test_vectors.bin
+test_metadata_store/

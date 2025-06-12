@@ -2,6 +2,7 @@ import numpy as np
 import heapq
 from bisect import insort
 from collections import Counter
+from .utils import cosine_distance
 
 class Search:
     def search(self, query_vector, k):
@@ -52,16 +53,6 @@ class Node:
     def __repr__(self):
         neighbor_info = [f"{n.layer_id}-{n.vector_id}" for n in self.neighbors]
         return f"{self.layer_id}-{self.vector_id} --> neighbors: {neighbor_info}"
-
-def cosine_similarity(vec1, vec2):
-    """Compute cosine similarity between two vectors."""
-    if np.linalg.norm(vec1) == 0 or np.linalg.norm(vec2) == 0:
-        return 0.0
-    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
-
-def cosine_distance(vec1, vec2):
-    """Compute cosine distance between two vectors."""
-    return 1 - cosine_similarity(vec1, vec2)
 
 # reference: https://zilliz.com/learn/hierarchical-navigable-small-worlds-HNSW
 #list of layers of graphs
