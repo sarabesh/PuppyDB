@@ -1,5 +1,5 @@
 """
-KNN search test with texts loaded from CSV 🐶
+HNSW search test with texts loaded from CSV 🐶
 """
 
 import clip
@@ -7,6 +7,7 @@ import torch
 import numpy as np
 import pandas as pd
 import os
+import time
 
 # Import PuppyDB
 from ..puppyDB import PuppyDB
@@ -52,14 +53,17 @@ query_text = "The cutest puppy playing with a ball"
 # Get query embedding
 query_embedding = get_clip_text_embedding(query_text)
 
-# Build index (just gets vector in memory for KNN search)
+# Build index (just gets vector in memory for HNSW search)
 db.build_index(method="hnsw")
 
 # Run search
+start_time = time.time()
 results = db.search(query_embedding, k=5, method="hnsw")
+end_time = time.time()
+print(f"\nSearch completed in {end_time - start_time:.4f} seconds.")
 
 # Display results
-print(f"\nKNN Search Results for query: '{query_text}'\n")
+print(f"\nHNSW Search Results for query: '{query_text}'\n")
 
 for i, r in enumerate(results):
     print(f"{i+1}. Vector ID: {r[0]}")

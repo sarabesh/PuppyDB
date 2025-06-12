@@ -69,7 +69,7 @@ class HNSWSearch(Search):
     def __init__(self, puppydb):
         self.puppydb = puppydb
         
-        self.max_layer = 2  # Maximum number of layers in the HNSW graph, starting from 0 so 0,1,2
+        self.max_layer = 4  # Maximum number of layers in the HNSW graph, starting from 0 so 0,1,2
         self.layers = [{} for _ in range(self.max_layer + 1)]
         self.collection = []  
         self.max_neighbors_per_layer = 15 # Maximum number of neighbors per node per layer, this is a hyperparameter
@@ -131,7 +131,7 @@ class HNSWSearch(Search):
     # Insert a vector into the HNSW
     def insert(self, vector_id, vector):
     
-        print(f"Inserting vector {vector_id} into HNSW graph")
+        # print(f"Inserting vector {vector_id} into HNSW graph")
         #Bootstrap the graph if it is empty
         # If no nodes in graph, create node in all layers
         if not self.layers[0]:
@@ -142,7 +142,7 @@ class HNSWSearch(Search):
                 self.layers[i][vector_id] = newnode # Insert into the first layer
                 if i == len(self.layers) - 1:
                     self.entry_point = newnode
-            print(f"entry point:{self.entry_point}")
+            # print(f"entry point:{self.entry_point}")
             return
 
 
@@ -157,10 +157,10 @@ class HNSWSearch(Search):
         current_node = self.entry_point #at top layer
         for i in range(self.max_layer, insert_layer, -1):
             nearest_neighbors = self._search_layer_neighbors(self.layers[i], current_node, vector, ef=1)
-            print(f"Layer {i} nearest neighbors: {nearest_neighbors[0][1].vector_id, nearest_neighbors[0][1].layer_id} with distance {nearest_neighbors[0][0]}")
+            # print(f"Layer {i} nearest neighbors: {nearest_neighbors[0][1].vector_id, nearest_neighbors[0][1].layer_id} with distance {nearest_neighbors[0][0]}")
             current_node = self.layers[i-1][nearest_neighbors[0][1].vector_id]  # Best neighbor becomes new entry point for lower layer
 
-        print(f"insert_layer: {insert_layer}, current_node: {current_node.vector_id}, current_node.layer_id: {current_node.layer_id}")
+        # print(f"insert_layer: {insert_layer}, current_node: {current_node.vector_id}, current_node.layer_id: {current_node.layer_id}")
 
         # Insert node into layers from insert_layer to 0
         for i in range(insert_layer, -1, -1):
@@ -169,9 +169,9 @@ class HNSWSearch(Search):
                 # For next layer down, the new node becomes current_node
                 current_node = self.layers[i][nearest_neighbors[0][1].vector_id]  # Best neighbor becomes new entry point for lower layer
                 
-            print(f"Getting neighbors in layer {i} from current_node {current_node.layer_id}-{current_node.vector_id}")
+            # print(f"Getting neighbors in layer {i} from current_node {current_node.layer_id}-{current_node.vector_id}")
             nearest_neighbors = self._search_layer_neighbors(self.layers[i], current_node, vector, ef=10)
-            print(f"Layer {i} nearest neighbors: {[f'{n[1].layer_id}-{n[1].vector_id}' for n in nearest_neighbors]}")
+            # print(f"Layer {i} nearest neighbors: {[f'{n[1].layer_id}-{n[1].vector_id}' for n in nearest_neighbors]}")
             
             
                 # Create new node for the current layer
@@ -214,14 +214,13 @@ class HNSWSearch(Search):
             return []
     
         for vector_id, vector in vectors:
-            self.print_layers()
+            # self.print_layers()
             self.insert(vector_id, vector)
 
-        
 
-        for layer in reversed(self.layers):
-            print(f"Layer {self.layers.index(layer)}: {len(layer)} nodes")
-            print([node for node in layer])
+        # for layer in reversed(self.layers):
+        #     print(f"Layer {self.layers.index(layer)}: {len(layer)} nodes")
+        #     print([node for node in layer])
        
 
     def search(self, query_vector, k=5):

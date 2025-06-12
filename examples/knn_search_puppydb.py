@@ -7,6 +7,7 @@ import torch
 import numpy as np
 import pandas as pd
 import os
+import time
 
 # Import PuppyDB
 from ..puppyDB import PuppyDB
@@ -55,9 +56,11 @@ query_embedding = get_clip_text_embedding(query_text)
 # Build index (just gets vector in memory for KNN search)
 db.build_index(method="knn")
 
-# Run search
+# Run search, tracking time
+start_time = time.time()
 results = db.search(query_embedding, k=5, method="knn")
-
+end_time = time.time()
+print(f"Search completed in {end_time - start_time:.4f} seconds")
 # Display results
 print(f"\nKNN Search Results for query: '{query_text}'\n")
 
