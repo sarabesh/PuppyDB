@@ -2,7 +2,7 @@
 <p align="center">
 <img src="assets/logo.png" alt="PuppyDB Logo" width="200"/>
 </p>
-**PuppyDB** is a playful vector database built from scratch with:
+PuppyDB(pup-py-db) is an experimental vector database built from scratch with:
 
 - **Flat files + mmap** for fast vector storage
 - **LMDB** for metadata and offsets
@@ -80,19 +80,5 @@ db.truncate()
 # Close DB
 db.close()
 ```
-
----
-
-## Project Structure
-
-puppydb/            # Core package code
-tests/              # Pytest-based unit tests
-examples/           # Example scripts
-setup.py            # Package configuration
-requirements.txt    # Project dependencies
-README.md           # Project readme
-
----
-
 ## License
 MIT License — use and modify freely.
